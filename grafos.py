@@ -1,7 +1,7 @@
 import math
 from typing import List, Tuple, Set, Dict
 import matplotlib
-matplotlib.use('Agg')  # Backend não-interativo (salva arquivos sem abrir janelas)
+matplotlib.use('Agg')  # Backend não-interativo para salvar arquivos
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon as MplPolygon
 from shapely.geometry import Point as ShapelyPoint, LineString, Polygon as ShapelyPolygon
@@ -20,7 +20,7 @@ class VisibilityGraph:
             self.edges[point] = set()
     
     def add_edge(self, p1: Tuple[float, float], p2: Tuple[float, float], weight: float = None):
-        """Adiciona uma aresta entre dois pontos"""
+        """Adiciona uma aresta bidirecional entre dois pontos"""
         self.add_node(p1)
         self.add_node(p2)
         self.edges[p1].add(p2)
@@ -31,20 +31,13 @@ class VisibilityGraph:
         return self.edges.get(point, set())
     
     def num_edges(self) -> int:
-        """Retorna o número total de arestas"""
+        """Retorna o número total de arestas (cada par contado uma vez)"""
         return sum(len(neighbors) for neighbors in self.edges.values()) // 2
 
 def parse_coords(line: str) -> Tuple[float, float]:
-    """Parseia uma linha com coordenadas no formato 'x, y' ou 'x,y' e retorna (x, y) como floats.
-    
-    Args:
-        line: String com coordenadas no formato 'x, y' ou 'x,y'
-        
-    Returns:
-        Tupla (x, y) com as coordenadas
-        
-    Raises:
-        ValueError: Se a linha estiver malformada ou não puder ser convertida
+    """
+    Parseia uma string 'x, y' ou 'x,y' para a tupla (x, y) de floats.
+    Levanta ValueError se malformada.
     """
     parts = [p.strip() for p in line.split(',') if p.strip() != '']
     if len(parts) < 2:
@@ -57,24 +50,9 @@ def parse_coords(line: str) -> Tuple[float, float]:
     return (x, y)
 
 def read_map(filename: str) -> Tuple[Tuple[float, float], Tuple[float, float], List[ShapelyPolygon]]:
-    """Lê o arquivo de mapa e retorna início, fim e lista de polígonos Shapely
-    
-    Formato do arquivo:
-    - Linha 1: coordenadas do ponto de início (x, y)
-    - Linha 2: coordenadas do ponto de fim (x, y)
-    - Linha 3: quantidade total de polígonos
-    - Para cada polígono:
-        - Uma linha com o número de vértices
-        - N linhas com as coordenadas (x, y) de cada vértice
-    
-    Args:
-        filename: Caminho para o arquivo de mapa
-        
-    Returns:
-        Tupla com (start, end, polygons) onde:
-        - start: coordenadas (x, y) do ponto inicial
-        - end: coordenadas (x, y) do ponto final
-        - polygons: lista de objetos Polygon do Shapely
+    """
+    Lê o arquivo de mapa.
+    Retorna: (start, end, polygons)
     """
     with open(filename, 'r') as f:
         lines = [line.strip() for line in f if line.strip()]
@@ -110,17 +88,9 @@ def read_map(filename: str) -> Tuple[Tuple[float, float], Tuple[float, float], L
     return start, end, polygons
 
 def is_visible(p1: Tuple[float, float], p2: Tuple[float, float], polygons: List[ShapelyPolygon]) -> bool:
-    """Verifica se dois pontos são visíveis entre si usando Shapely
-    
-    Dois pontos são visíveis se a linha entre eles não cruza ou está dentro de nenhum polígono.
-    
-    Args:
-        p1: Coordenadas (x, y) do primeiro ponto
-        p2: Coordenadas (x, y) do segundo ponto
-        polygons: Lista de polígonos Shapely que são obstáculos
-        
-    Returns:
-        True se os pontos são visíveis, False caso contrário
+    """
+    Verifica se a linha entre p1 e p2 é visível (não cruza nem está dentro de nenhum polígono).
+    Retorna: True se visível, False caso contrário.
     """
     if p1 == p2:
         return False
@@ -128,7 +98,7 @@ def is_visible(p1: Tuple[float, float], p2: Tuple[float, float], polygons: List[
     # Cria uma linha entre os dois pontos
     line = LineString([p1, p2])
     
-    # Verifica se a linha cruza ou está dentro de algum polígono
+    # Verifica intersecção com os obstáculos
     for polygon in polygons:
         # Se a linha cruza ou está dentro do polígono, não é visível
         if line.crosses(polygon) or line.within(polygon):
@@ -137,17 +107,11 @@ def is_visible(p1: Tuple[float, float], p2: Tuple[float, float], polygons: List[
     return True
 
 def build_visibility_graph(start: Tuple[float, float], 
-                          end: Tuple[float, float], 
-                          polygons: List[ShapelyPolygon]) -> VisibilityGraph:
-    """Constrói o grafo de visibilidade usando Shapely
-    
-    Args:
-        start: Coordenadas (x, y) do ponto inicial
-        end: Coordenadas (x, y) do ponto final
-        polygons: Lista de polígonos Shapely que são obstáculos
-        
-    Returns:
-        VisibilityGraph com todos os nós e arestas de visibilidade
+                             end: Tuple[float, float], 
+                             polygons: List[ShapelyPolygon]) -> VisibilityGraph:
+    """
+    Constrói o grafo de visibilidade. Os nós são start, end e todos os vértices dos polígonos.
+    Retorna: VisibilityGraph
     """
     graph = VisibilityGraph()
     
@@ -161,34 +125,28 @@ def build_visibility_graph(start: Tuple[float, float],
     for vertex in vertices:
         graph.add_node(vertex)
     
-    # Testa visibilidade entre todos os pares de vértices
+    # Testa visibilidade e adiciona arestas
     for v1, v2 in combinations(vertices, 2):
         if is_visible(v1, v2, polygons):
-            # Calcula distância euclidiana
+            # Calcula distância euclidiana para o peso
             dist = math.hypot(v2[0] - v1[0], v2[1] - v1[1])
             graph.add_edge(v1, v2, weight=dist)
     
     return graph
 
 def visualize_graph(start: Tuple[float, float], 
-                   end: Tuple[float, float], 
-                   polygons: List[ShapelyPolygon], 
-                   graph: VisibilityGraph, 
-                   save_file: str = None):
-    """Visualiza o grafo de visibilidade
-    
-    Args:
-        start: Coordenadas (x, y) do ponto inicial
-        end: Coordenadas (x, y) do ponto final
-        polygons: Lista de polígonos Shapely
-        graph: Grafo de visibilidade
-        save_file: Caminho para salvar a imagem (None para 'grafo_visibilidade.png')
+                    end: Tuple[float, float], 
+                    polygons: List[ShapelyPolygon], 
+                    graph: VisibilityGraph, 
+                    save_file: str = None):
+    """
+    Gera e salva a visualização do mapa, obstáculos e grafo de visibilidade.
+    Salva em 'grafo_visibilidade.png' se save_file for None.
     """
     fig, ax = plt.subplots(figsize=(12, 8))
     
-    # Desenha polígonos
+    # Desenha polígonos (obstáculos)
     for polygon in polygons:
-        # Extrai coordenadas do polígono
         coords = list(polygon.exterior.coords)
         
         # Adiciona patch do polígono preenchido
@@ -204,11 +162,11 @@ def visualize_graph(start: Tuple[float, float],
     drawn_edges = set()
     for node in graph.nodes:
         for neighbor in graph.get_neighbors(node):
-            # Para evitar desenhar a mesma aresta duas vezes
+            # Evita desenhar a mesma aresta duas vezes
             edge = tuple(sorted([node, neighbor]))
             if edge not in drawn_edges:
                 ax.plot([node[0], neighbor[0]], [node[1], neighbor[1]], 
-                       color='#FF0000', linewidth=0.5, alpha=0.3)
+                         color='#FF0000', linewidth=0.5, alpha=0.3)
                 drawn_edges.add(edge)
     
     # Desenha vértices dos polígonos
@@ -220,9 +178,9 @@ def visualize_graph(start: Tuple[float, float],
     
     # Destaca início e fim
     ax.plot(start[0], start[1], marker='o', color='green', markersize=10, 
-            label='Início', markeredgecolor='black', markeredgewidth=1.5, zorder=10)
+             label='Início', markeredgecolor='black', markeredgewidth=1.5, zorder=10)
     ax.plot(end[0], end[1], marker='x', color='red', markersize=12, 
-            label='Fim', markeredgewidth=2.5, zorder=10)
+             label='Fim', markeredgewidth=2.5, zorder=10)
     
     # Configurações de limites e aspecto
     all_xs = [start[0], end[0]]
@@ -252,7 +210,7 @@ def visualize_graph(start: Tuple[float, float],
     plt.close()
 
 def main():
-    """Função principal"""
+    """Função principal: lê o mapa, constrói e visualiza o grafo."""
     try:
         # Lê o mapa
         start, end, polygons = read_map('mapa.txt')
