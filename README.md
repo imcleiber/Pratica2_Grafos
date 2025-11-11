@@ -52,15 +52,14 @@ Dessa forma, é possível verificar exatamente o retorno de cada função atrav�
 
 ## Parte 3 a 6: 
 ### Grafo de Visibilidade com MST e Caminho BFS
-``` A visualização combina três camadas de informação sobre o mapa:
+ A visualização combina três camadas de informação sobre o mapa:
+ 
+1. Obstáculos (Polígonos): As áreas sombreadas em cinza (lightgray) representam obstáculos que não podem ser atravessados.
 
-Obstáculos (Polígonos): As áreas sombreadas em cinza (lightgray) representam obstáculos que não podem ser atravessados.
+2. Grafo de Visibilidade (Fundo): As linhas finas em vermelho claro mostram todas as conexões retas e visíveis (arestas) entre os vértices dos polígonos, o ponto de Início (verde) e o ponto de Fim (vermelho).
 
-Grafo de Visibilidade (Fundo): As linhas finas em vermelho claro mostram todas as conexões retas e visíveis (arestas) entre os vértices dos polígonos, o ponto de Início (verde) e o ponto de Fim (vermelho).
+3. MST (Árvore Geradora Mínima): As arestas em roxo escuro representam a Árvore Geradora Mínima (MST) calculada a partir do grafo de visibilidade (provavelmente usando Prim, conforme o código implementado). A MST conecta todos os nós com o menor comprimento total possível.
 
-MST (Árvore Geradora Mínima): As arestas em roxo escuro representam a Árvore Geradora Mínima (MST) calculada a partir do grafo de visibilidade (provavelmente usando Prim, conforme o código implementado). A MST conecta todos os nós com o menor comprimento total possível.
+4. Caminho BFS na MST (Laranja): A linha grossa em laranja representa o caminho encontrado usando a Busca em Largura (BFS), que conecta o ponto inicial ao ponto final usando somente as arestas da MST.
 
-Caminho BFS na MST (Laranja): A linha grossa em laranja representa o caminho encontrado usando a Busca em Largura (BFS), que conecta o ponto inicial ao ponto final usando somente as arestas da MST.
 <img width="517" height="516" alt="image" src="https://github.com/user-attachments/assets/6877f52d-a8b1-4c5a-adcf-1b52d1e3cb0a" />
-```
-
