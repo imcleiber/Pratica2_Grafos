@@ -64,10 +64,13 @@ Dessa forma, é possível verificar exatamente o retorno de cada função atrav�
 
 |**Tópico Solicitado**|**Demonstração na Imagem** |**Detalhes**|
 |------------------|-------------------|-----------------------|
-|` Implementar Kruskal ou Prim no grafo de visibilidade |`Linhas Roxas (MST) |`O conjunto de arestas em roxo é o resultado da aplicação do Algoritmo de Prim ao Grafo de Visibilidade. Ele garante a menor distância total para conectar todos os nós do grafo`|
+|` Implementar Kruskal ou Prim no grafo de visibilidade `|`Linhas Roxas (MST) `|`O conjunto de arestas em roxo é o resultado da aplicação do Algoritmo de Prim ao Grafo de Visibilidade. Ele garante a menor distância total para conectar todos os nós do grafo`|
 |`Implementação da função verticeMaisProximo `|`Estrela Amarela (Vértice Mais Próximo)`|` A estrela amarela mostra o nó da MST que foi identificado pela função verticeMaisProximo como sendo o mais próximo do ponto de teste ou da posição inicial.`|
 |`Implementação de algoritmo de busca na árvore (BFS)`|`Linha Laranja (Caminho BFS) `|`A linha grossa em laranja é o resultado da Busca em Largura (BFS), um algoritmo de busca, executado somente sobre a MST (arestas roxas) para encontrar o caminho mais curto (em número de arestas) do início ao fim.`|
 |`Plotar o caminho gerado no mapa (Extra) `|`Linha Laranja`|`O caminho final gerado pela BFS é plotado de forma clara e destacada (laranja) sobre o mapa, cumprindo o objetivo de visualização.`|
+
+
+#Resultado Final: 
 <img width="517" height="516" alt="image" src="https://github.com/user-attachments/assets/6877f52d-a8b1-4c5a-adcf-1b52d1e3cb0a" />
 
 
