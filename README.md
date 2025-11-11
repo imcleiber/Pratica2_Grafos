@@ -11,6 +11,7 @@ Passos para rodar o projeto:
 ## Parte 1 & 2 do Projeto : Criação e Leitura de Mapa de Grafo de Visibilidade:
 
 ### Formatação de arquivo do mapa (.txt): 
+'''
 35, -68
 195, -180
 4
@@ -41,3 +42,4 @@ Passos para rodar o projeto:
 183, -175
 235, -227
 232, -230
+'''
