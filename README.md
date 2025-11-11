@@ -44,3 +44,5 @@ Passos para rodar o projeto:
 235, -227
 232, -230
 ```
+### Geração do Grafo de Visibilidade: 
+<img width="592" height="593" alt="image" src="https://github.com/user-attachments/assets/aff72c62-abdb-4f15-946e-733af4eb5709" />
