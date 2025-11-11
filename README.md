@@ -6,7 +6,9 @@ Projeto 2 da disciplina de Teoria dos Grafos
 Passos para rodar o projeto:
 1. Baixe todos os arquivos e os salve na mesma pasta;
 2. Abra a pasta no VScode e rode grafos.py;
-3. Na pasta será gerado o grafo de visibilidade denominado grafo_visibilidade.png;
+3. Na pasta será gerado o grafo de visibilidade denominado grafo_visibilidade.png, grafo_visibilidade_e_mst.png, grafo_visibilidade_mst_e_proximo e grafo_visibilidade_caminho_bfs_e_mst;
+   
+Dessa forma, é possível verificar exatamente o retorno de cada função através da plotagem dos grafos sobre o mapa criado.
 
 ## Parte 1 & 2 do Projeto : Criação e Leitura de Mapa de Grafo de Visibilidade:
 
