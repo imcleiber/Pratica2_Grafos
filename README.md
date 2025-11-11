@@ -48,3 +48,19 @@ Dessa forma, é possível verificar exatamente o retorno de cada função atrav�
 ```
 ### Geração do Grafo de Visibilidade: 
 <img width="592" height="593" alt="image" src="https://github.com/user-attachments/assets/aff72c62-abdb-4f15-946e-733af4eb5709" />
+
+
+## Parte 3 a 6: 
+### Grafo de Visibilidade com MST e Caminho BFS
+``` A visualização combina três camadas de informação sobre o mapa:
+
+Obstáculos (Polígonos): As áreas sombreadas em cinza (lightgray) representam obstáculos que não podem ser atravessados.
+
+Grafo de Visibilidade (Fundo): As linhas finas em vermelho claro mostram todas as conexões retas e visíveis (arestas) entre os vértices dos polígonos, o ponto de Início (verde) e o ponto de Fim (vermelho).
+
+MST (Árvore Geradora Mínima): As arestas em roxo escuro representam a Árvore Geradora Mínima (MST) calculada a partir do grafo de visibilidade (provavelmente usando Prim, conforme o código implementado). A MST conecta todos os nós com o menor comprimento total possível.
+
+Caminho BFS na MST (Laranja): A linha grossa em laranja representa o caminho encontrado usando a Busca em Largura (BFS), que conecta o ponto inicial ao ponto final usando somente as arestas da MST.
+<img width="517" height="516" alt="image" src="https://github.com/user-attachments/assets/6877f52d-a8b1-4c5a-adcf-1b52d1e3cb0a" />
+```
+
