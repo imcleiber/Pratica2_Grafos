@@ -70,7 +70,7 @@ Dessa forma, é possível verificar exatamente o retorno de cada função atrav�
 |`Plotar o caminho gerado no mapa (Extra) `|`Linha Laranja`|`O caminho final gerado pela BFS é plotado de forma clara e destacada (laranja) sobre o mapa, cumprindo o objetivo de visualização.`|
 
 
-#Resultado Final: 
+# Resultado Final: 
 <img width="517" height="516" alt="image" src="https://github.com/user-attachments/assets/6877f52d-a8b1-4c5a-adcf-1b52d1e3cb0a" />
 
 
