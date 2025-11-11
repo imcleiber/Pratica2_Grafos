@@ -1,5 +1,6 @@
 # Pratica2_Grafos
 Projeto 2 da disciplina de Teoria dos Grafos
+Equipe: Cleiber de Meireles, Estevao Pessoa e Levi Silva
 
 É preciso instalar as bibliotecas em requirements.txt para rodar o algoritmo
 
